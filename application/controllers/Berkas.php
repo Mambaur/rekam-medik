@@ -189,10 +189,11 @@ class Berkas extends CI_Controller {
     }
     
     public function petugas(){
+        $data['petugas'] = $this->db->get('petugas')->result_array();
         $this->load->view('widgets/header-view.php');
         $this->load->view('widgets/sidebar-view.php');
         $this->load->view('widgets/topbar-view.php');
-        $this->load->view('berkas/petugas/petugas-daftar.php');
+        $this->load->view('berkas/petugas/petugas-daftar.php', $data);
         $this->load->view('widgets/footer-view.php');
     }
     
@@ -202,5 +203,44 @@ class Berkas extends CI_Controller {
         $this->load->view('widgets/topbar-view.php');
         $this->load->view('berkas/petugas/petugas-baru.php');
         $this->load->view('widgets/footer-view.php');
+    }
+
+    public function petugastambah(){
+        $nama_petugas = $this->input->post('nama_petugas');
+        $email = $this->input->post('email');
+        $password = $this->input->post('password');
+        $konfirmasi_password = $this->input->post('konfirmasi_password');
+
+        $cek = $this->db->get_where('petugas', ['email' => $email])->row_array();
+        if($email == $cek['email']){
+            $this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert">Email sudah didaftarkan!</div>');
+            redirect('berkas/petugasbaru');
+        }else if ($password == $konfirmasi_password) {
+            $data = [
+                'nama_petugas' => $nama_petugas,
+                'email' => $email,
+                'password' => $password
+            ];
+            if ($this->db->insert('petugas', $data)) {
+                $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Petugas berhasil ditambahkan!</div>');
+                redirect('berkas/petugasbaru');
+            }else{
+                $this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert">Petugas gagal ditambahkan!</div>');
+                redirect('berkas/petugasbaru');
+            }
+        }else{
+            $this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert">Konfirmasi password tidak cocok!</div>');
+            redirect('berkas/petugasbaru');
+        }
+    }
+
+    public function hapuspetugas(){
+        if ($this->db->delete('petugas', ['id_petugas' => $this->input->get('id')])) {
+            $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Petugas berhasil dihapus!</div>');
+            redirect('berkas/petugas');
+        }else{
+            $this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert">Petugas gagal dihapus!</div>');
+            redirect('berkas/petugas');
+        }
     }
 }

@@ -8,30 +8,46 @@
 <!-- DataTales Example -->
 <div class="card shadow mb-4">
     <div class="card-body">
+        <?= $this->session->flashdata('message'); ?>
         <div class="table-responsive">
         <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
             <thead>
             <tr>
                 <th>No</th>
-                <th>Nama Distributor</th>
+                <th>Nama petugas</th>
                 <th>Email</th>
                 <th></th>
             </tr>
             </thead>
             <tbody>
+            <?php 
+            $no = 1;
+            foreach ($petugas as $item) { ?>
             <tr>
-                <td style="width: 8%">1</td>
-                <td>System Architect</td>
-                <td>2011/04/25</td>
+                <td style="width: 8%"><?= $no++ ?></td>
+                <td><?= $item['nama_petugas']; ?></td>
+                <td><?= $item['email']; ?></td>
                 <td style="width: 15%">
-                    <a href="#" class="btn btn-danger btn-icon-split">
-                        <span class="icon text-white-50">
-                        <i class="fas fa-trash"></i>
-                        </span>
-                        <span class="text">Hapus</span>
-                    </a>
+                    <?php if($item['id_petugas'] == 1){ ?>
+                        <a href="#" class="btn btn-secondary btn-icon-split">
+                            <span class="icon text-white-50">
+                            <i class="fas fa-trash"></i>
+                            </span>
+                            <span class="text">Hapus</span>
+                        </a>
+                    <?php }else { ?>
+                        <a href="<?= base_url('berkas/hapuspetugas?id='.$item['id_petugas']);?>" class="btn btn-danger btn-icon-split">
+                            <span class="icon text-white-50">
+                            <i class="fas fa-trash"></i>
+                            </span>
+                            <span class="text">Hapus</span>
+                        </a>
+                    <?php } ?>
                 </td>
             </tr>
+            <?php
+            }
+            ?>
             </tbody>
         </table>
         </div>

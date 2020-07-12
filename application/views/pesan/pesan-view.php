@@ -1,81 +1,91 @@
 
 <!-- Page Heading -->
-<div class="d-sm-flex align-items-center justify-content-between mb-4">
+<!-- <div class="d-sm-flex align-items-center justify-content-center mb-4">
   <h1 class="h3 mb-0 text-gray-800">Pesan</h1>
-</div>
+</div> -->
 
 <div class="row">
-<div class="col-lg-7">
+<div class="col-lg-7 mx-auto">
         <!-- Basic Card Example -->
         <div class="card shadow mb-4">
-            <div class="card-header py-3">
-                <h6 class="m-0 font-weight-bold text-primary">Daftar pesan masuk</h6>
-            </div>
             <div class="card-body">
-                <div class="card border-left-success shadow h-10 mb-2">
-                    <div class="card-body">
-                        <div class="row no-gutters align-items-center">
-                            <div class="col mr-2">
-                                <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Paidin</div>
-                                <div class="h6 mb-0 font-weight-bold text-gray-800">Minta pengiriman poli</div>
-                            </div>
-                            <div class="col-auto">
-                                <a href="#" class="btn btn-success btn-circle">
-                                    <i class="fas fa-check"></i>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="card border-left-success shadow h-10 mb-2">
-                    <div class="card-body">
-                        <div class="row no-gutters align-items-center">
-                            <div class="col mr-2">
-                                <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Paidin</div>
-                                <div class="h6 mb-0 font-weight-bold text-gray-800">Minta pengiriman poli</div>
-                            </div>
-                            <div class="col-auto">
-                                <a href="#" class="btn btn-success btn-circle">
-                                    <i class="fas fa-check"></i>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="card border-left-success shadow h-10 mb-2">
-                    <div class="card-body">
-                        <div class="row no-gutters align-items-center">
-                            <div class="col mr-2">
-                                <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Paidin</div>
-                                <div class="h6 mb-0 font-weight-bold text-gray-800">Minta pengiriman poli</div>
-                            </div>
-                            <div class="col-auto">
-                                <a href="#" class="btn btn-success btn-circle">
-                                    <i class="fas fa-check"></i>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <hr>
-            </div>
-        </div>
-    </div>
-
-    <div class="col-lg-5">
-        <!-- Basic Card Example -->
-        <div class="card shadow mb-4">
-            <div class="card-header py-3">
-                <h6 class="m-0 font-weight-bold text-primary">Kirim Pesan</h6>
-            </div>
-            <div class="card-body">
-                <div class="row d-flex justify-content-center">
+                <div class="row">
+                    <div class="mx-2 my-1 text-center">Kirim ke</div>
                     <div style="width:69%" class="form-group mr-2">
-                      <select class="form-control" name="poli">
-                        <option selected>Poli A</option>
-                        <option>Poli B</option>
-                        <option>Poli C</option>
-                      </select>
+                        <select class="form-control" name="poli">
+                            <?php foreach($poli as $item){ 
+                                if ($item['id_poli'] != 1) {
+                                    echo '<option value="'.$item['telepon'].'">'.$item['nama_poli'].'</option>';
+                                }
+                            }?>
+                        </select>
+                    </div>
+                </div>
+                <div class="bg-dark py-4 px-2">
+                    <div class="card border-left-success shadow h-10 mb-2">
+                        <div class="card-body">
+                            <div class="row no-gutters align-items-center">
+                                <div class="col mr-2">
+                                    <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Paidin</div>
+                                    <div class="h6 mb-0 font-weight-bold text-gray-800">Minta pengiriman poli</div>
+                                </div>
+                                <div class="col-auto">
+                                    <a href="#" class="btn btn-success btn-circle">
+                                        <i class="fas fa-check"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card border-left-success shadow h-10 mb-2">
+                        <div class="card-body">
+                            <div class="row no-gutters align-items-center">
+                                <div class="col mr-2">
+                                    <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Paidin</div>
+                                    <div class="h6 mb-0 font-weight-bold text-gray-800">Minta pengiriman poli</div>
+                                </div>
+                                <div class="col-auto">
+                                    <a href="#" class="btn btn-success btn-circle">
+                                        <i class="fas fa-check"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card border-left-success shadow h-10 mb-2">
+                        <div class="card-body">
+                            <div class="row no-gutters align-items-center">
+                                <div class="col mr-2">
+                                    <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Paidin</div>
+                                    <div class="h6 mb-0 font-weight-bold text-gray-800">Minta pengiriman poli</div>
+                                </div>
+                                <div class="col-auto">
+                                    <a href="#" class="btn btn-success btn-circle">
+                                        <i class="fas fa-check"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card border-left-success shadow h-10 mb-2">
+                        <div class="card-body">
+                            <div class="row no-gutters align-items-center">
+                                <div class="col mr-2">
+                                    <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Paidin</div>
+                                    <div class="h6 mb-0 font-weight-bold text-gray-800">Minta pengiriman poli</div>
+                                </div>
+                                <div class="col-auto">
+                                    <a href="#" class="btn btn-success btn-circle">
+                                        <i class="fas fa-check"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row d-flex justify-content-center mt-4">
+                    <div class="form-group mr-2 w-75">
+                        <textarea class="form-control" name="pesan" rows="2"></textarea>
                     </div>
                     <a href="#" class="btn btn-success btn-icon-split h-25">
                         <span class="icon text-white-50">
@@ -83,9 +93,6 @@
                         </span>
                         <span class="text">Kirim</span>
                     </a>
-                </div>
-                <div class="form-group">
-                  <textarea class="form-control" name="pesan" rows="8"></textarea>
                 </div>
             </div>
         </div>

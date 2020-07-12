@@ -95,4 +95,74 @@ class Dashboard extends CI_Controller {
             redirect('dashboard');
         }
     }
+
+    public function search(){
+        $keyword = $this->input->get('keyword');
+        if (empty($this->Pasien->search($keyword))) {
+            echo "
+                <div class='alert alert-light mt-2'>
+                    <strong>Mohon maaf,</strong> data yang anda cari tidak ditemukan!
+                </div>
+            ";
+        }else{
+            $no = 1;
+            foreach ($this->Pasien->search($keyword) as $item) {
+                echo '
+                <tr>
+                    <td style="width: 8%">'. $no++ .'</td>
+                    <td>'. $item['no_rm'] .'</td>
+                    <td>'. $item['nama_pasien'] .'</td>
+                    <td>'. $item['status'] .'</td>
+                    <td>'. $item['tanggal_masuk'] .'</td>
+                    <td>'. $item['no_rak'] .'</td>
+                    <td style="width: 27%" class="text-center">
+                        <form 
+                            action="
+                            ';
+                            if ($item['status'] == '-') {
+                                echo base_url('dashboard/peminjaman');
+                            }else{
+                                echo base_url('dashboard/pengembalian');
+                            }
+                            echo '"
+                            method="post">
+
+                            <input type="hidden" name="id_pasien" value="'. $item['id_pasien'].'">
+                            <input type="hidden" name="id_pinjam" value="'. $item['id_peminjaman'].'">
+                            <input type="hidden" name="id_distributor" value="'. $item['distributor'].'">
+                            
+                            
+                            '; 
+                            if ($item['status'] == '-') {
+                            echo '
+                                <button type="submit" class="btn btn-success btn-icon-split">
+                                    <span class="icon text-white-50">
+                                    <i class="fas fa-check"></i>
+                                    </span>
+                                    <span class="text">Kirim</span>
+                                </button>
+                            ';
+                            }else{
+                            echo '
+                                <button type="submit" class="btn btn-warning btn-icon-split">
+                                    <span class="icon text-white-50">
+                                    <i class="fas fa-arrow-left"></i>
+                                    </span>
+                                    <span class="text">Kembali</span>
+                                </button>
+                            ';
+                            }
+                            echo '
+                                <a href="'. base_url('dashboard/hapus?id='.$item['id_peminjaman']).'" class="btn btn-danger btn-icon-split">
+                                    <span class="icon text-white-50">
+                                    <i class="fas fa-trash"></i>
+                                    </span>
+                                    <span class="text">Hapus</span>
+                                </a>
+                        </form>
+                    </td>
+                </tr>';
+            }
+        }
+    }
 }

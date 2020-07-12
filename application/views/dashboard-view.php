@@ -116,16 +116,16 @@
 </div>
 
 
-<form class="m-5 navbar-search">
-<div class="input-group">
-    <input type="text" class="form-control bg-light border-1 small p-4" placeholder="Cari Pasien..." aria-label="Search" aria-describedby="basic-addon2">
-    <div class="input-group-append">
-    <button class="btn btn-primary px-4" type="button">
-        <i class="fas fa-search fa-sm"></i>
-    </button>
-    </div>
+<div class="m-5 navbar-search">
+  <div class="input-group">
+      <input type="text" class="form-control bg-light border-1 small p-4" id="inputsearch" placeholder="Cari Pasien...">
+      <div class="input-group-append">
+      <button id="search" class="btn btn-primary px-4" type="button">
+          <i class="fas fa-search fa-sm"></i>
+      </button>
+      </div>
+  </div>
 </div>
-</form>
 
 <!-- DataTales Example -->
 <div class="card shadow mb-4">
@@ -144,71 +144,91 @@
                 <th></th>
             </tr>
             </thead>
-            <tbody>
-            <?php
-            $no = 1;
-            foreach ($pasien as $item) { ?>
-            <tr>
-                <td style="width: 8%"><?= $no++ ?></td>
-                <td><?= $item['no_rm'] ?></td>
-                <td><?= $item['nama_pasien'] ?></td>
-                <td><?= $item['status'] ?></td>
-                <td><?= $item['tanggal_masuk'] ?></td>
-                <td><?= $item['no_rak'] ?></td>
-                <td style="width: 27%" class="text-center">
-                  <form 
-                    action="
-                    <?php
-                      if ($item['status'] == '-') {
-                        echo base_url('dashboard/peminjaman');
-                      }else{
-                        echo base_url('dashboard/pengembalian');
-                      }
-                    ?>"
-                    method="post">
+            <div>
+              <tbody id="hasil">
+              <?php
+              $no = 1;
+              foreach ($pasien as $item) { ?>
+              <tr>
+                  <td style="width: 8%"><?= $no++ ?></td>
+                  <td><?= $item['no_rm'] ?></td>
+                  <td><?= $item['nama_pasien'] ?></td>
+                  <td><?= $item['status'] ?></td>
+                  <td><?= $item['tanggal_masuk'] ?></td>
+                  <td><?= $item['no_rak'] ?></td>
+                  <td style="width: 27%" class="text-center">
+                    <form 
+                      action="
+                      <?php
+                        if ($item['status'] == '-') {
+                          echo base_url('dashboard/peminjaman');
+                        }else{
+                          echo base_url('dashboard/pengembalian');
+                        }
+                      ?>"
+                      method="post">
 
-                    <input type="hidden" name="id_pasien" value="<?= $item['id_pasien']; ?>">
-                    <input type="hidden" name="id_pinjam" value="<?= $item['id_peminjaman']; ?>">
-                    <input type="hidden" name="id_distributor" value="<?= $item['distributor']; ?>">
-                    
-                    
-                    <?php 
-                    if ($item['status'] == '-') {
-                      echo '
-                      <button type="submit" class="btn btn-success btn-icon-split">
-                        <span class="icon text-white-50">
-                        <i class="fas fa-check"></i>
-                        </span>
-                        <span class="text">Kirim</span>
-                      </button>
-                      ';
-                    }else{
-                      echo '
-                      <button type="submit" class="btn btn-warning btn-icon-split">
-                        <span class="icon text-white-50">
-                        <i class="fas fa-arrow-left"></i>
-                        </span>
-                        <span class="text">Kembali</span>
-                      </button>
-                      ';
-                    }
-                    ?>
-                    
-                    <a href="<?= base_url('dashboard/hapus?id='.$item['id_peminjaman']);?>" class="btn btn-danger btn-icon-split">
-                        <span class="icon text-white-50">
-                        <i class="fas fa-trash"></i>
-                        </span>
-                        <span class="text">Hapus</span>
-                    </a>
-                  </form>
-                </td>
-            </tr>
-            <?php
-            }
-            ?>
-            </tbody>
+                      <input type="hidden" name="id_pasien" value="<?= $item['id_pasien']; ?>">
+                      <input type="hidden" name="id_pinjam" value="<?= $item['id_peminjaman']; ?>">
+                      <input type="hidden" name="id_distributor" value="<?= $item['distributor']; ?>">
+                      
+                      
+                      <?php 
+                      if ($item['status'] == '-') {
+                        echo '
+                        <button type="submit" class="btn btn-success btn-icon-split">
+                          <span class="icon text-white-50">
+                          <i class="fas fa-check"></i>
+                          </span>
+                          <span class="text">Kirim</span>
+                        </button>
+                        ';
+                      }else{
+                        echo '
+                        <button type="submit" class="btn btn-warning btn-icon-split">
+                          <span class="icon text-white-50">
+                          <i class="fas fa-arrow-left"></i>
+                          </span>
+                          <span class="text">Kembali</span>
+                        </button>
+                        ';
+                      }
+                      ?>
+                      
+                      <a href="<?= base_url('dashboard/hapus?id='.$item['id_peminjaman']);?>" class="btn btn-danger btn-icon-split">
+                          <span class="icon text-white-50">
+                          <i class="fas fa-trash"></i>
+                          </span>
+                          <span class="text">Hapus</span>
+                      </a>
+                    </form>
+                  </td>
+              </tr>
+              <?php
+              }
+              ?>
+              </tbody>
+            </div>
         </table>
         </div>
     </div>
 </div>
+
+<script>
+var keyword = document.getElementById('inputsearch');
+var hasil = document.getElementById('hasil');
+// var btnCari = document.getElementById('btn-cari');
+
+keyword.addEventListener('keyup', function(){
+    var ajax = new XMLHttpRequest();
+    ajax.onreadystatechange = function(){
+        if (ajax.readyState == 4 && ajax.status == 200) {
+        hasil.innerHTML = ajax.responseText;
+        }
+    }
+
+    ajax.open('GET', '<?php echo base_url("dashboard/search?keyword=");?>' + keyword.value,true);
+    ajax.send();
+});
+</script>
 
