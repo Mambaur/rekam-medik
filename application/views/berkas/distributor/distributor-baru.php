@@ -4,27 +4,34 @@
   <h1 class="h3 mb-0 text-gray-800">Distributor Baru</h1>
 </div>
 
-<!-- Basic Card Example -->
-<div class="card shadow mt-5 mb-4 w-50 mx-auto">
-    <div class="card-body">
-        <!-- Nested Row within Card Body -->
-        <form class="user">
-            <div class="p-3">
-                <div class="form-group">
-                    <input type="text" name="nama-distributor" class="form-control form-control-user" placeholder="Nama distributor...">
+<form action="<?= base_url('berkas/distributortambah');?>" method="post" class="user">
+    <!-- Basic Card Example -->
+    <div class="card shadow mt-5 mb-4 w-50 mx-auto">
+        <div class="card-body">
+            <?= $this->session->flashdata('message'); ?>
+            <!-- Nested Row within Card Body -->
+                <div class="p-3">
+                    <div class="form-group">
+                        <input type="text" name="nama_distributor" class="form-control form-control-user" placeholder="Nama distributor..." required>
+                    </div>
+                    <div class="form-group">
+                        <input type="number" name="no_telp" class="form-control form-control-user" placeholder="Nomor telepon..." required>
+                    </div>
                 </div>
-                <div class="form-group">
-                    <input type="number" name="notelp" class="form-control form-control-user" placeholder="Nomor telepon...">
-                </div>
-            </div>
-        </form>
+        </div>
     </div>
-</div>
-<div class="d-flex justify-content-center mt-1 mb-5">
-    <a href="#" class="btn btn-success btn-icon-split">
-        <span class="icon text-white-50">
-        <i class="fas fa-check"></i>
-        </span>
-        <span class="text">Tambah Distributor</span>
-    </a>
-</div>
+    <div class="d-flex justify-content-center mt-1 mb-5">
+        <a href="<?= base_url();?>berkas/distributor" class="btn btn-secondary btn-icon-split mr-2">
+            <span class="icon text-white-50">
+            <i class="fas fa-arrow-left"></i>
+            </span>
+            <span class="text">Kembali</span>
+        </a>
+        <button type="submit" class="btn btn-success btn-icon-split">
+            <span class="icon text-white-50">
+            <i class="fas fa-check"></i>
+            </span>
+            <span class="text">Tambah Distributor</span>
+        </button>
+    </div>
+</form>

@@ -14,8 +14,8 @@
       <div class="card-body">
         <div class="row no-gutters align-items-center">
           <div class="col mr-2">
-            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Earnings (Monthly)</div>
-            <div class="h5 mb-0 font-weight-bold text-gray-800">$40,000</div>
+            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Jumlah Pasien</div>
+            <div class="h5 mb-0 font-weight-bold text-gray-800"><?= count($this->db->get('pasien')->result_array()); ?></div>
           </div>
           <div class="col-auto">
             <i class="fas fa-calendar fa-2x text-gray-300"></i>
@@ -31,8 +31,8 @@
       <div class="card-body">
         <div class="row no-gutters align-items-center">
           <div class="col mr-2">
-            <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Earnings (Annual)</div>
-            <div class="h5 mb-0 font-weight-bold text-gray-800">$215,000</div>
+            <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Jumlah Distributor</div>
+            <div class="h5 mb-0 font-weight-bold text-gray-800"><?= count($this->db->get('distributor')->result_array()); ?></div>
           </div>
           <div class="col-auto">
             <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
@@ -48,14 +48,23 @@
       <div class="card-body">
         <div class="row no-gutters align-items-center">
           <div class="col mr-2">
-            <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Tasks</div>
+            <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Jumlah Pengunjung hari ini</div>
             <div class="row no-gutters align-items-center">
               <div class="col-auto">
-                <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">50%</div>
-              </div>
-              <div class="col">
-                <div class="progress progress-sm mr-2">
-                  <div class="progress-bar bg-info" role="progressbar" style="width: 50%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+                <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">
+                <?php
+                $datapengunjung = $this->db->get('detail_pinjam')->result_array();
+                if ($datapengunjung) {
+                  foreach ($datapengunjung as $item) {
+                    if ($item['keterangan'] != 'Pengembalian') {
+                      $pengunjung[] = $item['keterangan'];
+                    }
+                  }
+                  echo count($pengunjung);
+                }else{
+                  echo 0;
+                }
+                ?>
                 </div>
               </div>
             </div>
@@ -74,8 +83,28 @@
       <div class="card-body">
         <div class="row no-gutters align-items-center">
           <div class="col mr-2">
-            <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Pending Requests</div>
-            <div class="h5 mb-0 font-weight-bold text-gray-800">18</div>
+            <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Jumlah Poli</div>
+            <div class="h5 mb-0 font-weight-bold text-gray-800">
+              <?php 
+              $temp = 0;
+              $datapoli = $this->db->get('poli')->result_array();
+              if ($datapoli) {
+                foreach ($datapoli as $item2) {
+                  if ($item2['nama_poli'] != '-') {
+                    $temp = 1;
+                    $poli[] = $item2['nama_poli'];
+                  }
+                }
+                if ($temp == 1) {
+                  echo count($poli);
+                }else{
+                  echo 0;
+                }
+              }else{
+                echo 0;
+              }
+              ?>
+            </div>
           </div>
           <div class="col-auto">
             <i class="fas fa-comments fa-2x text-gray-300"></i>
@@ -101,10 +130,12 @@
 <!-- DataTales Example -->
 <div class="card shadow mb-4">
     <div class="card-body">
+        <?= $this->session->flashdata('message'); ?>
         <div class="table-responsive">
         <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
             <thead>
             <tr>
+                <th>No</th>
                 <th>No RM</th>
                 <th>Nama Pasien</th>
                 <th>Status</th>
@@ -114,27 +145,67 @@
             </tr>
             </thead>
             <tbody>
+            <?php
+            $no = 1;
+            foreach ($pasien as $item) { ?>
             <tr>
-                <td style="width: 8%">1</td>
-                <td>System Architect</td>
-                <td>Edinburgh</td>
-                <td>61</td>
-                <td>2011/04/25</td>
-                <td style="width: 25%">
-                    <a href="#" class="btn btn-success btn-icon-split">
+                <td style="width: 8%"><?= $no++ ?></td>
+                <td><?= $item['no_rm'] ?></td>
+                <td><?= $item['nama_pasien'] ?></td>
+                <td><?= $item['status'] ?></td>
+                <td><?= $item['tanggal_masuk'] ?></td>
+                <td><?= $item['no_rak'] ?></td>
+                <td style="width: 27%" class="text-center">
+                  <form 
+                    action="
+                    <?php
+                      if ($item['status'] == '-') {
+                        echo base_url('dashboard/peminjaman');
+                      }else{
+                        echo base_url('dashboard/pengembalian');
+                      }
+                    ?>"
+                    method="post">
+
+                    <input type="hidden" name="id_pasien" value="<?= $item['id_pasien']; ?>">
+                    <input type="hidden" name="id_pinjam" value="<?= $item['id_peminjaman']; ?>">
+                    <input type="hidden" name="id_distributor" value="<?= $item['distributor']; ?>">
+                    
+                    
+                    <?php 
+                    if ($item['status'] == '-') {
+                      echo '
+                      <button type="submit" class="btn btn-success btn-icon-split">
                         <span class="icon text-white-50">
                         <i class="fas fa-check"></i>
                         </span>
                         <span class="text">Kirim</span>
-                    </a>
-                    <a href="#" class="btn btn-danger btn-icon-split">
+                      </button>
+                      ';
+                    }else{
+                      echo '
+                      <button type="submit" class="btn btn-warning btn-icon-split">
+                        <span class="icon text-white-50">
+                        <i class="fas fa-arrow-left"></i>
+                        </span>
+                        <span class="text">Kembali</span>
+                      </button>
+                      ';
+                    }
+                    ?>
+                    
+                    <a href="<?= base_url('dashboard/hapus?id='.$item['id_peminjaman']);?>" class="btn btn-danger btn-icon-split">
                         <span class="icon text-white-50">
                         <i class="fas fa-trash"></i>
                         </span>
                         <span class="text">Hapus</span>
                     </a>
+                  </form>
                 </td>
             </tr>
+            <?php
+            }
+            ?>
             </tbody>
         </table>
         </div>
