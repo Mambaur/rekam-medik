@@ -53,14 +53,21 @@
               <div class="col-auto">
                 <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">
                 <?php
+                // echo date('d-m-Y');
+                $temp = 0;
                 $datapengunjung = $this->db->get('detail_pinjam')->result_array();
                 if ($datapengunjung) {
                   foreach ($datapengunjung as $item) {
-                    if ($item['keterangan'] != 'Pengembalian') {
+                    if ($item['keterangan'] != 'Pengembalian' && $item['tanggal'] == date('Y-m-d')) {
+                      $temp = 1;
                       $pengunjung[] = $item['keterangan'];
                     }
                   }
-                  echo count($pengunjung);
+                  if ($temp == 1) {
+                    echo count($pengunjung);
+                  }else{
+                    echo 0;
+                  }
                 }else{
                   echo 0;
                 }
@@ -86,16 +93,16 @@
             <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Jumlah Poli</div>
             <div class="h5 mb-0 font-weight-bold text-gray-800">
               <?php 
-              $temp = 0;
+              $temp2 = 0;
               $datapoli = $this->db->get('poli')->result_array();
               if ($datapoli) {
                 foreach ($datapoli as $item2) {
                   if ($item2['nama_poli'] != '-') {
-                    $temp = 1;
+                    $temp2 = 1;
                     $poli[] = $item2['nama_poli'];
                   }
                 }
-                if ($temp == 1) {
+                if ($temp2 == 1) {
                   echo count($poli);
                 }else{
                   echo 0;
@@ -171,6 +178,7 @@
                       <input type="hidden" name="id_pasien" value="<?= $item['id_pasien']; ?>">
                       <input type="hidden" name="id_pinjam" value="<?= $item['id_peminjaman']; ?>">
                       <input type="hidden" name="id_distributor" value="<?= $item['distributor']; ?>">
+                      <input type="hidden" name="poli" value="<?= $item['status'] ?>">
                       
                       
                       <?php 

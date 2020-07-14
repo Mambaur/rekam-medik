@@ -66,9 +66,11 @@ class Dashboard extends CI_Controller {
         $id_pasien = $this->input->post('id_pasien');
         $id_pinjam = $this->input->post('id_pinjam');
         $id_distributor = $this->input->post('id_distributor');
+        $poli = $this->input->post('poli');
+
         $input = [
             'tanggal' => date("Y-m-d"),
-            'keterangan' => 'Pengembalian',
+            'keterangan' => 'Pengembalian dari '.$poli,
             'peminjaman_id_peminjaman' => $id_pinjam,
             'poli_id_poli' => '1',
             'distributor_id_distributor' => $id_distributor
