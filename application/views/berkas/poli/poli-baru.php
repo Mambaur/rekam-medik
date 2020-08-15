@@ -15,7 +15,7 @@
                         <input type="text" name="nama_poli" class="form-control form-control-user" placeholder="Nama poli..." required>
                     </div>
                     <div class="form-group">
-                        <input type="number" name="telepon" class="form-control form-control-user" placeholder="Nomor telepon..." required>
+                        <input type="number" name="telepon" class="form-control form-control-user" placeholder="Nomor telepon atau id telegram..." required>
                     </div>
                     <div class="form-group">
                         <input type="text" name="penanggung_jawab" class="form-control form-control-user" placeholder="Penanggung Jawab..." required>

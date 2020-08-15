@@ -37,6 +37,22 @@ class Berkas extends CI_Controller {
         $id_poli = $this->input->post('id_poli');
         $id_distributor = $this->input->post('id_distributor');
         $keterangan = $this->input->post('keterangan');
+        $waktu = $this->input->post('waktu');
+
+
+        if ($id_poli == 1 && $waktu == '-') {
+            $waktu = null;
+            $tipe = 'Berkas baru';
+            $status = 'baru';
+        }elseif($waktu == '1x24'){
+            $waktu = date("Y-m-d", strtotime('+ 1 day'));
+            $tipe = 'Peminjaman';
+            $status = 'dipinjam';
+        }else{
+            $waktu = date("Y-m-d", strtotime('+ 2 day'));
+            $tipe = 'Peminjaman';
+            $status = 'dipinjam';
+        }
 
         $data = $this->db->get_where('poli', ['id_poli' => $id_poli])->row_array();
 
@@ -65,6 +81,9 @@ class Berkas extends CI_Controller {
             'peminjaman_id_peminjaman' => $idpinjam,
             'poli_id_poli' => $id_poli,
             'distributor_id_distributor' => $id_distributor,
+            'waktu' => $waktu,
+            'tipe' => $tipe,
+            'status' => $status
         ];
 
         if ($this->db->insert('pasien', $inputPasien) && $this->db->insert('peminjaman', $inputPinjam) && $this->db->insert('detail_pinjam', $inputDetailPinjam)) {

@@ -62,6 +62,14 @@
                                 }?>
                                 </select>
                             </div>
+                            <div class="form-group mx-1">
+                                Waktu Peminjaman
+                                <select class="form-control" name="waktu">
+                                    <option value="-">-</option>
+                                    <option value="1x24">1x24</option>
+                                    <option value="2x24">2x24</option>
+                                </select>
+                            </div>
                             <div class="form-group w-100">
                                 <label for="keterangan">Keterangan</label>
                                 <textarea class="form-control form-control-user" name="keterangan" id="keterangan" rows="3" required>Berkas pasien baru</textarea>

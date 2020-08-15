@@ -30,6 +30,13 @@
                         </select>
                     </div>
                     <div class="form-group">
+                        Waktu Peminjaman
+                        <select class="form-control" name="waktu">
+                            <option value="1x24">1x24x</option>
+                            <option value="2x24">2x24x</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
                         Keterangan
                         <textarea class="form-control" name="keterangan" rows="3">Peminjaman Berkas</textarea>
                     </div>

@@ -41,8 +41,7 @@
                 <td><?= $item['nama_pasien']; ?></td>
 
                 <?php 
-                $string = substr($item['keterangan'], 0, 12);
-                if ($string == 'Pengembalian') {
+                if ($item['tipe'] == 'Pengembalian') {
                     echo '
                         <td></td>
                         <td></td>
@@ -63,7 +62,15 @@
                 }
                 
                 ?>
-                <td><?= $item['keterangan']; ?></td>
+                <td><?php
+                if ($item['status'] == 'Terlambat') {
+                    echo $item['keterangan'] . ' Terlambat '; 
+                }else{
+                    echo $item['keterangan']; 
+                }
+                ?>
+                
+                </td>
             </tr>
             <?php } ?>
             </tbody>

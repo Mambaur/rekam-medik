@@ -37,6 +37,12 @@ class Dashboard extends CI_Controller {
         $id_poli = $this->input->post('id_poli');
         $id_pinjam = $this->input->post('id_pinjam');
         $keterangan = $this->input->post('keterangan');
+        if ($this->input->post('waktu') == '1x24') {
+            $waktu = date("Y-m-d", strtotime('+ 1 day'));
+        }else{
+            $waktu = date("Y-m-d", strtotime('+ 2 day'));
+        }
+        
 
         $input = [
             'tanggal' => date("Y-m-d"),
@@ -44,6 +50,9 @@ class Dashboard extends CI_Controller {
             'peminjaman_id_peminjaman' => $id_pinjam,
             'poli_id_poli' => $id_poli,
             'distributor_id_distributor' => $id_distributor,
+            'waktu' => $waktu,
+            'tipe' => 'Peminjaman',
+            'status' => 'dipinjam'
         ];
 
         $data = $this->db->get_where('poli', ['id_poli' => $id_poli])->row_array();
@@ -73,7 +82,10 @@ class Dashboard extends CI_Controller {
             'keterangan' => 'Pengembalian dari '.$poli,
             'peminjaman_id_peminjaman' => $id_pinjam,
             'poli_id_poli' => '1',
-            'distributor_id_distributor' => $id_distributor
+            'distributor_id_distributor' => $id_distributor,
+            'waktu' => date('Y-m-d'),
+            'tipe' => 'Pengembalian',
+            'status' => 'dikembalikan'
         ];
 
         $this->db->set('status', '-');

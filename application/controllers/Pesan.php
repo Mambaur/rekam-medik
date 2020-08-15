@@ -31,6 +31,8 @@ class Pesan extends CI_Controller {
             'isi_pesan' => $message_text,
             'status' => '0',
             'time' => date('d-m-Y H:i:s'),
+            'id_userMessage' => $telegram_id,
+            'tipe' => 'Kirim'
         ];
         if ($this->db->insert('pesan', $data)) {
             $this->sendMessage($telegram_id, $message_text, $secret_token);
@@ -62,5 +64,70 @@ class Pesan extends CI_Controller {
             $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Pesan berhasil dikirim!</div>');
             redirect('pesan');
         }
+    }
+
+    public function getMessage(){
+        $getData = file_get_contents('https://api.telegram.org/bot1357308704:AAFTKe7m7Q7P1dfX4MY-4kYmRs7tQi20w-4/getUpdates');
+
+        $data = json_decode($getData, TRUE);
+
+        $this->expiredMessage();
+
+        if(count($data['result']) > 0){
+            for ($i=0; $i < count($data['result']); $i++) { 
+                $message_id = $data['result'][$i]['message']['message_id'];
+                $cek = $this->db->get_where('pesan', ['id_pesan' => $message_id])->num_rows();
+
+                if ($cek == 0) {
+                    $dataPesan = [
+                        'id_pesan' => $data['result'][$i]['message']['message_id'],
+                        'subjek' => $data['result'][$i]['message']['from']['first_name'],
+                        'isi_pesan' => $data['result'][$i]['message']['text'],
+                        'status' => 0,
+                        'time' => $data['result'][$i]['message']['date'],
+                        'id_userMessage' =>  $data['result'][$i]['message']['chat']['id'],
+                        'tipe' => 'Terima'
+                    ];
+                    $this->db->insert('pesan', $dataPesan);
+                }
+            }
+            echo $this->db->get_where('pesan', ['status' => 0, 'tipe' => 'Terima'])->num_rows();
+        }
+
+    }
+
+    public function expiredMessage(){
+
+        $telegram_id = '628079062';
+        $secret_token = '1357308704:AAFTKe7m7Q7P1dfX4MY-4kYmRs7tQi20w-4';
+        $message_text = 'Mohon maaf, berkas pasien harus segera dikembalikan';
+
+        $data = $this->db->get_where('detail_pinjam', ['tipe' => 'Peminjaman', 'status' => 'dipinjam'])->result_array();
+        for ($i=0; $i < count($data); $i++) { 
+
+            if (strtotime($data[$i]['waktu']) <= strtotime(date("Y-m-d"))) {
+                $this->db->where('status', 'dipinjam');
+                $this->db->update('detail_pinjam', ['status' => 'Terlambat']);
+                $this->sendMessage($telegram_id, $message_text, $secret_token);
+            }
+        }
+
+    }
+
+    public function readMessage(){
+        $data = $this->db->get_where('pesan', ['status' => 0, 'tipe' => 'Terima'])->result_array();
+        foreach ($data as $item) {
+            echo '<a class="dropdown-item d-flex align-items-center" href="#">
+            <div class="dropdown-list-image mr-3">
+                <img class="rounded-circle" src="https://source.unsplash.com/Mv9hjnEUHR4/60x60" alt="">
+                <div class="status-indicator bg-success"></div>
+            </div>
+            <div>
+                <div class="text-truncate">'.$item['isi_pesan'].'</div>
+                <div class="small text-gray-500">'.$item['subjek'].' - '.$item['id_pesan'].'</div>
+            </div>
+            </a>';
+        }
+        $this->db->update('pesan', ['status' => 1]);
     }
 }

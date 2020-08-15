@@ -20,15 +20,15 @@
                     </div>
                     <div class="bg-dark py-2 px-2" id="scroll" style="overflow:scroll; height:500px;">
                         <?php foreach ($tbpesan as $item){ ?>
-                        <div class="card border-left-success shadow h-10 mb-2">
+                        <div class="card <?php if($item['tipe'] == 'Terima'){echo 'border-left-success';}else{echo 'border-left-primary';} ?> shadow h-10 mb-2">
                             <div class="card-body">
                                 <div class="row no-gutters align-items-center">
                                     <div class="col mr-2">
-                                        <div class="text-xs font-weight-bold text-success text-uppercase mb-1"><?= $item['subjek'] ?></div>
+                                        <div class="text-xs font-weight-bold text-success text-uppercase mb-1"><?= $item['subjek'].' | id:'.$item['id_userMessage']  ?></div>
                                         <div class="h6 mb-0 font-weight-bold text-gray-800"><?= $item['isi_pesan'] ?></div><?= $item['time'] ?>
                                     </div>
                                     <div class="col-auto">
-                                        <a href="#" class="btn btn-success btn-circle">
+                                        <a href="#" class="btn <?php if($item['tipe'] == 'Terima'){echo 'btn-success';}else{echo 'btn-primary';} ?>  btn-circle">
                                             <i class="fas fa-check"></i>
                                         </a>
                                     </div>

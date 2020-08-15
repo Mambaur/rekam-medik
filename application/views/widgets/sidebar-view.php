@@ -82,7 +82,7 @@
 
       <!-- Nav Item - Tables -->
       <li class="nav-item">
-        <a class="nav-link" href="<?= base_url();?>pesan">
+        <a class="nav-link notifPushSidebar" href="<?= base_url();?>pesan">
           <i class="fas fa-comments"></i>
           <span>Pesan</span></a>
       </li>
