@@ -11,8 +11,8 @@ class Laporan extends CI_Controller {
 
     public function index(){
 
-        $this->db->join('poli', 'peminjaman.status = poli.nama_poli');
         $this->db->join('detail_pinjam', 'detail_pinjam.peminjaman_id_peminjaman = peminjaman.id_peminjaman');
+        $this->db->join('poli', 'detail_pinjam.poli_id_poli = poli.id_poli');
         $this->db->join('pasien', 'pasien.id_pasien = peminjaman.pasien_id_pasien');
 		$this->db->order_by('id_detail_pinjam', 'desc');
         $data['laporan'] = $this->db->get('peminjaman')->result_array();

@@ -20,7 +20,7 @@
                     </div>
                     <div class="bg-dark py-2 px-2" id="scroll" style="overflow:scroll; height:500px;">
                         <?php foreach ($tbpesan as $item){ ?>
-                        <div class="card <?php if($item['tipe'] == 'Terima'){echo 'border-left-success';}else{echo 'border-left-primary';} ?> shadow h-10 mb-2">
+                        <div class="card <?php if($item['tipe'] == 'Terima'){echo 'border-left-success';}else{echo 'border-left-primary bg-warning';} ?> shadow h-10 mb-2">
                             <div class="card-body">
                                 <div class="row no-gutters align-items-center">
                                     <div class="col mr-2">

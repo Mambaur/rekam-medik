@@ -62,6 +62,7 @@ class Dashboard extends CI_Controller {
         $this->db->where('id_peminjaman', $this->input->post('id_pinjam'));
 
         if ($this->db->update('peminjaman') && $this->db->insert('detail_pinjam', $input)) {
+            $this->sendMessage();
             $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Berkas berhasil dikirim!</div>');
             redirect('dashboard');
         }else{
@@ -178,5 +179,24 @@ class Dashboard extends CI_Controller {
                 </tr>';
             }
         }
+    }
+
+
+    public function sendMessage() {
+        $secret_token = '1357308704:AAFTKe7m7Q7P1dfX4MY-4kYmRs7tQi20w-4';
+        $message_text = 'Berkas pasien akan segera dikirimkan';
+        $telegram_id = '628079062';
+
+        $url = "https://api.telegram.org/bot" . $secret_token . "/sendMessage?parse_mode=markdown&chat_id=" . $telegram_id;
+        $url = $url . "&text=" . urlencode($message_text);
+        $ch = curl_init();
+        $optArray = array(
+                CURLOPT_URL => $url,
+                CURLOPT_RETURNTRANSFER => true
+        );
+        curl_setopt_array($ch, $optArray);
+        $result = curl_exec($ch);
+        $err = curl_error($ch);
+        curl_close($ch);
     }
 }

@@ -118,10 +118,6 @@ class Pesan extends CI_Controller {
         $data = $this->db->get_where('pesan', ['status' => 0, 'tipe' => 'Terima'])->result_array();
         foreach ($data as $item) {
             echo '<a class="dropdown-item d-flex align-items-center" href="#">
-            <div class="dropdown-list-image mr-3">
-                <img class="rounded-circle" src="https://source.unsplash.com/Mv9hjnEUHR4/60x60" alt="">
-                <div class="status-indicator bg-success"></div>
-            </div>
             <div>
                 <div class="text-truncate">'.$item['isi_pesan'].'</div>
                 <div class="small text-gray-500">'.$item['subjek'].' - '.$item['id_pesan'].'</div>

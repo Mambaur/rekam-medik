@@ -23,10 +23,10 @@
                 <th rowspan="2" class="text-center">Keterangan</th>
             </tr>
             <tr>
-                <th>Nama</th>
+                <th>Penanggung Jawab</th>
                 <th>Bagian</th>
                 <th>Tanggal</th>
-                <th>Nama</th>
+                <th>Penanggung Jawab</th>
                 <th>Bagian</th>
                 <th>Tanggal</th>
             </tr>
@@ -41,13 +41,18 @@
                 <td><?= $item['nama_pasien']; ?></td>
 
                 <?php 
+
+                $poli = explode("Pengembalian dari ", $item['keterangan']);
                 if ($item['tipe'] == 'Pengembalian') {
+                    foreach ($poli as $i) {
+                        $i = ' ' . $i;
+                    }
                     echo '
                         <td></td>
                         <td></td>
                         <td></td>
-                        <td></td>
-                        <td></td>
+                        <td>'.$i.'</td>
+                        <td>'.$i.'</td>
                         <td>'.$item['tanggal'].'</td>
                     ';
                 }else{
