@@ -23,7 +23,8 @@ class Dashboard extends CI_Controller {
         $data = [
             'distributor' => $this->Pasien->getDistributor(),
             'poli' => $this->Pasien->getPoli(),
-            'id_pinjam' => $this->input->post('id_pinjam')
+            'id_pinjam' => $this->input->post('id_pinjam'),
+            'nama_pasien' => $this->input->post('nama_pasien')
         ];
         $this->load->view('widgets/header-view.php');
         $this->load->view('widgets/sidebar-view.php');
@@ -37,6 +38,7 @@ class Dashboard extends CI_Controller {
         $id_poli = $this->input->post('id_poli');
         $id_pinjam = $this->input->post('id_pinjam');
         $keterangan = $this->input->post('keterangan');
+        $nama_pasien = $this->input->post('nama_pasien');
         if ($this->input->post('waktu') == '1x24') {
             $waktu = date("Y-m-d", strtotime('+ 1 day'));
         }else{
@@ -62,7 +64,7 @@ class Dashboard extends CI_Controller {
         $this->db->where('id_peminjaman', $this->input->post('id_pinjam'));
 
         if ($this->db->update('peminjaman') && $this->db->insert('detail_pinjam', $input)) {
-            $this->sendMessage();
+            $this->sendMessage($nama_pasien, $data['telepon']);
             $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Berkas berhasil dikirim!</div>');
             redirect('dashboard');
         }else{
@@ -182,10 +184,10 @@ class Dashboard extends CI_Controller {
     }
 
 
-    public function sendMessage() {
+    public function sendMessage($nama_pasien, $telepon) {
         $secret_token = '1357308704:AAFTKe7m7Q7P1dfX4MY-4kYmRs7tQi20w-4';
-        $message_text = 'Berkas pasien akan segera dikirimkan';
-        $telegram_id = '628079062';
+        $message_text = 'Berkas pasien '.$nama_pasien.' akan segera dikirimkan';
+        $telegram_id = $telepon;
 
         $url = "https://api.telegram.org/bot" . $secret_token . "/sendMessage?parse_mode=markdown&chat_id=" . $telegram_id;
         $url = $url . "&text=" . urlencode($message_text);

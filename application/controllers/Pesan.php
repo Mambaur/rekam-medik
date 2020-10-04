@@ -9,6 +9,9 @@ class Pesan extends CI_Controller {
 		}
     }
 
+    // Remove webhook
+    // https://api.telegram.org/bot1357308704:AAFTKe7m7Q7P1dfX4MY-4kYmRs7tQi20w-4/SETWebhook
+
     public function index(){
         $data['poli'] = $this->db->get('poli')->result_array();
         $data['tbpesan'] = $this->db->get('pesan')->result_array();
@@ -84,7 +87,7 @@ class Pesan extends CI_Controller {
                         'subjek' => $data['result'][$i]['message']['from']['first_name'],
                         'isi_pesan' => $data['result'][$i]['message']['text'],
                         'status' => 0,
-                        'time' => $data['result'][$i]['message']['date'],
+                        'time' => date('d/m/Y H:i:s', $data['result'][$i]['message']['date']),
                         'id_userMessage' =>  $data['result'][$i]['message']['chat']['id'],
                         'tipe' => 'Terima'
                     ];
@@ -96,14 +99,16 @@ class Pesan extends CI_Controller {
 
     }
 
+    // fungsi yang dilakukan di cron job
     public function expiredMessage(){
-
-        $telegram_id = '628079062';
+        
         $secret_token = '1357308704:AAFTKe7m7Q7P1dfX4MY-4kYmRs7tQi20w-4';
         $message_text = 'Mohon maaf, berkas pasien harus segera dikembalikan';
 
         $data = $this->db->get_where('detail_pinjam', ['tipe' => 'Peminjaman', 'status' => 'dipinjam'])->result_array();
         for ($i=0; $i < count($data); $i++) { 
+            $data_poli = $this->db->get_where('poli', ['id_poli' => $data[$i]['poli_id_poli']])->row_array();
+            $telegram_id = $data_poli['telepon'];
 
             if (strtotime($data[$i]['waktu']) <= strtotime(date("Y-m-d"))) {
                 $this->db->where('status', 'dipinjam');
@@ -120,7 +125,7 @@ class Pesan extends CI_Controller {
             echo '<a class="dropdown-item d-flex align-items-center" href="#">
             <div>
                 <div class="text-truncate">'.$item['isi_pesan'].'</div>
-                <div class="small text-gray-500">'.$item['subjek'].' - '.$item['id_pesan'].'</div>
+                <div class="small text-gray-500">'.$item['subjek'].' - '.$item['id_userMessage'].'</div>
             </div>
             </a>';
         }

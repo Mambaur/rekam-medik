@@ -59,7 +59,7 @@ class Pasien extends CI_Model{
 		$this->db->join('poli', 'pasien.poli_id_poli = poli.id_poli');
 		$this->db->join('peminjaman', 'pasien.id_pasien = peminjaman.pasien_id_pasien');
 		$this->db->order_by('id_pasien', 'desc');
-		$this->db->like('nama_pasien', $keyword);
+		$this->db->or_like(["nama_pasien"=>$keyword, 'no_rm'=> $keyword]);
 		return $this->db->get('pasien')->result_array();
 	}
 }

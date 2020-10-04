@@ -179,6 +179,7 @@
                       <input type="hidden" name="id_pinjam" value="<?= $item['id_peminjaman']; ?>">
                       <input type="hidden" name="id_distributor" value="<?= $item['distributor']; ?>">
                       <input type="hidden" name="poli" value="<?= $item['status'] ?>">
+                      <input type="hidden" name="nama_pasien" value="<?= $item['nama_pasien'] ?>">
                       
                       
                       <?php 

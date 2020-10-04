@@ -6,6 +6,7 @@
 
 <form action="<?= base_url('dashboard/peminjaman_aksi');?>" method="post">
     <input type="hidden" value="<?= $id_pinjam;?>" name="id_pinjam">
+    <input type="hidden" value="<?= $nama_pasien;?>" name="nama_pasien">
     <!-- Basic Card Example -->
     <div class="card shadow mt-5 mb-4 w-50 mx-auto">
         <div class="card-body">

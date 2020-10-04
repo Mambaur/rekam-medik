@@ -69,7 +69,7 @@
                 ?>
                 <td><?php
                 if ($item['status'] == 'Terlambat') {
-                    echo $item['keterangan'] . ' Terlambat '; 
+                    echo $item['keterangan'] . '- Terlambat dikembalikan '; 
                 }else{
                     echo $item['keterangan']; 
                 }
