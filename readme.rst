@@ -8,5 +8,5 @@ Merupakan sistem informasi untuk mengolah data pendaftara, serta pengiriman berk
 ###################
 Link dan info auth
 ###################
-- Link : sirm.caraguna.com
+- Link : [Buka disini](sirm.caraguna.com)
 - Login info = username: admin | password: 123
