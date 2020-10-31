@@ -33,6 +33,7 @@
             </thead>
             <tbody>
             <?php 
+            // Menampilkan data dalam bentuk tabel
             $no = 1;
             foreach($laporan as $item){ ?>
             <tr>
@@ -68,9 +69,24 @@
                 
                 ?>
                 <td><?php
+
+                // Mendapatkan selisih keterlambatan
+                date_default_timezone_set("Asia/Jakarta"); // set zona waktu indonesia
+
                 if ($item['status'] == 'Terlambat') {
-                    echo $item['keterangan'] . '- Terlambat dikembalikan '; 
+                    $awal  = new DateTime($item['waktu']); // Batas waktu pengembalian
+                    $akhir = new DateTime(); // Waktu sekarang
+                    $diff  = $awal->diff($akhir); // mendapatkan selisih
+
+                    // Mengambil selisih tiap bulan, hari, dan jam
+                    ($diff->m != 0) ? $month = $diff->m.' Bulan, ' : $month = ''; 
+                    ($diff->d != 0) ? $day = $diff->d. ' Hari, ' : $day = '';
+                    ($diff->h != 0) ? $hour = $diff->h. ' Jam' : $hour = '';
+
+                    // Menampilkan keterangan dengan selisih waktu
+                    echo $item['keterangan'] . '- Terlambat dikembalikan <br>'.$month.$day.$hour;
                 }else{
+                    // menampilkan keterangan saja
                     echo $item['keterangan']; 
                 }
                 ?>

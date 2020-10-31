@@ -53,6 +53,7 @@
         </div>
       </li>
 
+      <!-- Menangani apabila menu atau icon notif di klik, sehingga tidak muncul lagi -->
       <script>
       const readMessage = document.querySelector(".notifPush");
       readMessage.addEventListener("click", ()=>myFunction());

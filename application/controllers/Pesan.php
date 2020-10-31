@@ -2,8 +2,12 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Pesan extends CI_Controller {
+
+    // Fungsi yang pertama kali dipanggil
 	public function __construct(){
-		parent::__construct();
+        parent::__construct();
+        
+        // Untuk melihat user sudah login apa belum
         if (!$this->session->userdata('email')) {
 			redirect('auth');
 		}
@@ -23,6 +27,10 @@ class Pesan extends CI_Controller {
     }
 
     public function telegram(){
+
+        // Set zona waktu di indonesia
+        date_default_timezone_set("Asia/Jakarta");
+
         $secret_token = '1357308704:AAFTKe7m7Q7P1dfX4MY-4kYmRs7tQi20w-4';
         // $telegram_id = '628079062';
         // $message_text = 'Hello mambaur';
@@ -70,6 +78,10 @@ class Pesan extends CI_Controller {
     }
 
     public function getMessage(){
+
+        // Set zona waktu di indonesia
+        date_default_timezone_set("Asia/Jakarta");
+
         $getData = file_get_contents('https://api.telegram.org/bot1357308704:AAFTKe7m7Q7P1dfX4MY-4kYmRs7tQi20w-4/getUpdates');
 
         $data = json_decode($getData, TRUE);
@@ -99,8 +111,11 @@ class Pesan extends CI_Controller {
 
     }
 
-    // fungsi yang dilakukan di cron job
+    // Apabila berkas terlambat untuk dikembalikan
     public function expiredMessage(){
+        
+        // Set zona waktu di indonesia
+        date_default_timezone_set("Asia/Jakarta");
         
         $secret_token = '1357308704:AAFTKe7m7Q7P1dfX4MY-4kYmRs7tQi20w-4';
         $message_text = 'Mohon maaf, berkas pasien harus segera dikembalikan';

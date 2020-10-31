@@ -62,21 +62,30 @@
   <script src="<?= base_url()?>vendor/js/demo/chart-pie-demo.js"></script>
   <script src="<?= base_url()?>vendor/js/myscript.js"></script>
 
+
+  <!-- Merefresh div dengan id messageCount setiap 3 detik untuk mengupdate pesan masuk -->
   <script>
     setInterval(function(){ 
       loadMessage(); 
+      checkExpired();
     }, 3000);
 
     function loadMessage() {
-        var xmlhttp = new XMLHttpRequest();
-        xmlhttp.onreadystatechange = function() {
-          if (this.readyState == 4 && this.status == 200) {
-            document.getElementById("messageCount").innerHTML = this.responseText; 
-          }
-        };
-        xmlhttp.open("GET", "<?= base_url('pesan/getMessage'); ?>", true);
-        xmlhttp.send();
-      }
+      var xmlhttp = new XMLHttpRequest();
+      xmlhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+          document.getElementById("messageCount").innerHTML = this.responseText; 
+        }
+      };
+      xmlhttp.open("GET", "<?= base_url('pesan/getMessage'); ?>", true);
+      xmlhttp.send();
+    }
+    
+    function checkExpired(){
+      var httpRequest = new XMLHttpRequest();
+        httpRequest.open("GET", "<?= base_url('pesan/expiredMessage'); ?>", true);
+        httpRequest.send();
+    }
   </script>
 </body>
 
