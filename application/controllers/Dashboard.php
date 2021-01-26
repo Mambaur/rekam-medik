@@ -18,6 +18,7 @@ class Dashboard extends CI_Controller {
 
     // Menampilkan halaman beranda
     public function index(){
+        // echo date('d-m-Y');die;
         $data['pasien'] = $this->Pasien->getPasien();
         $this->load->view('widgets/header-view.php');
         $this->load->view('widgets/sidebar-view.php');

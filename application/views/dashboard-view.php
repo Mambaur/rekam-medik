@@ -2,7 +2,7 @@
 <!-- Page Heading -->
 <div class="d-sm-flex align-items-center justify-content-between mb-4">
   <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
-  <a href="<?= base_url();?>berkas/baru" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-plus fa-sm text-white-50"></i> Berkas Baru</a>
+  <a href="<?= base_url();?>berkas/baru" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-plus fa-sm text-white-50"></i> Berkas Pasien Baru</a>
 </div>
 
 <!-- Content Row -->
@@ -14,8 +14,8 @@
       <div class="card-body">
         <div class="row no-gutters align-items-center">
           <div class="col mr-2">
-            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Jumlah Pasien</div>
-            <div class="h5 mb-0 font-weight-bold text-gray-800"><?= count($this->db->get('pasien')->result_array()); ?></div>
+            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Jumlah Pasien hari ini</div>
+            <div class="h5 mb-0 font-weight-bold text-gray-800"><?= count($this->db->get_where('pasien', ['tanggal_masuk' => date('d-m-Y')])->result_array()); ?></div>
           </div>
           <div class="col-auto">
             <i class="fas fa-calendar fa-2x text-gray-300"></i>
@@ -48,30 +48,11 @@
       <div class="card-body">
         <div class="row no-gutters align-items-center">
           <div class="col mr-2">
-            <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Jumlah Pengunjung hari ini</div>
+            <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Jumlah berkas yang dipinjam</div>
             <div class="row no-gutters align-items-center">
               <div class="col-auto">
                 <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">
-                <?php
-                // echo date('d-m-Y');
-                $temp = 0;
-                $datapengunjung = $this->db->get('detail_pinjam')->result_array();
-                if ($datapengunjung) {
-                  foreach ($datapengunjung as $item) {
-                    if ($item['keterangan'] != 'Pengembalian' && $item['tanggal'] == date('Y-m-d')) {
-                      $temp = 1;
-                      $pengunjung[] = $item['keterangan'];
-                    }
-                  }
-                  if ($temp == 1) {
-                    echo count($pengunjung);
-                  }else{
-                    echo 0;
-                  }
-                }else{
-                  echo 0;
-                }
-                ?>
+                <?= count($this->db->get('peminjaman')->result_array()) - count($this->db->get_where('peminjaman', ['status' => '-'])->result_array()); ?>
                 </div>
               </div>
             </div>
@@ -93,23 +74,9 @@
             <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Jumlah Poli</div>
             <div class="h5 mb-0 font-weight-bold text-gray-800">
               <?php 
-              $temp2 = 0;
-              $datapoli = $this->db->get('poli')->result_array();
-              if ($datapoli) {
-                foreach ($datapoli as $item2) {
-                  if ($item2['nama_poli'] != '-') {
-                    $temp2 = 1;
-                    $poli[] = $item2['nama_poli'];
-                  }
-                }
-                if ($temp2 == 1) {
-                  echo count($poli);
-                }else{
-                  echo 0;
-                }
-              }else{
-                echo 0;
-              }
+              $nullPoli = count($this->db->get_where('poli', ['nama_poli' => '-'])->result_array());
+              $allPoli = count($this->db->get('poli')->result_array());
+              echo $allPoli - $nullPoli;
               ?>
             </div>
           </div>
@@ -119,6 +86,43 @@
         </div>
       </div>
     </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-lg">
+    <h5>Distributor hari ini</h5>
+    <ul class="list-group">
+      <li class="list-group-item d-flex justify-content-between align-items-center">
+        Cras justo odio
+        <span class="badge badge-primary badge-pill">14</span>
+      </li>
+      <li class="list-group-item d-flex justify-content-between align-items-center">
+        Dapibus ac facilisis in
+        <span class="badge badge-primary badge-pill">2</span>
+      </li>
+      <li class="list-group-item d-flex justify-content-between align-items-center">
+        Morbi leo risus
+        <span class="badge badge-primary badge-pill">1</span>
+      </li>
+    </ul>
+  </div>
+  <div class="col-lg">
+    <h5>Poli yang pinjam hari ini</h5>
+    <ul class="list-group">
+      <li class="list-group-item d-flex justify-content-between align-items-center">
+        Cras justo odio
+        <span class="badge badge-primary badge-pill">14</span>
+      </li>
+      <li class="list-group-item d-flex justify-content-between align-items-center">
+        Dapibus ac facilisis in
+        <span class="badge badge-primary badge-pill">2</span>
+      </li>
+      <li class="list-group-item d-flex justify-content-between align-items-center">
+        Morbi leo risus
+        <span class="badge badge-primary badge-pill">1</span>
+      </li>
+    </ul>
   </div>
 </div>
 
