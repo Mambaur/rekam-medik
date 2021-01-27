@@ -90,40 +90,33 @@
 </div>
 
 <div class="row">
+  <?php if($keyDistributor && $totalDistributor){ ?>
   <div class="col-lg">
     <h5>Distributor hari ini</h5>
     <ul class="list-group">
+      <?php foreach($keyDistributor as $item){ ?>
       <li class="list-group-item d-flex justify-content-between align-items-center">
-        Cras justo odio
-        <span class="badge badge-primary badge-pill">14</span>
+        <?= $item; ?>
+        <span class="badge badge-primary badge-pill"><?= $totalDistributor[$item]; ?></span>
       </li>
-      <li class="list-group-item d-flex justify-content-between align-items-center">
-        Dapibus ac facilisis in
-        <span class="badge badge-primary badge-pill">2</span>
-      </li>
-      <li class="list-group-item d-flex justify-content-between align-items-center">
-        Morbi leo risus
-        <span class="badge badge-primary badge-pill">1</span>
-      </li>
+      <?php } ?>
     </ul>
   </div>
+  <?php } ?>
+  
+  <?php if($keyPoli && $totalPoli){ ?>
   <div class="col-lg">
     <h5>Poli yang pinjam hari ini</h5>
     <ul class="list-group">
+      <?php foreach($keyPoli as $item){ ?>
       <li class="list-group-item d-flex justify-content-between align-items-center">
-        Cras justo odio
-        <span class="badge badge-primary badge-pill">14</span>
+        <?= $item; ?>
+        <span class="badge badge-primary badge-pill"><?= $totalPoli[$item]; ?></span>
       </li>
-      <li class="list-group-item d-flex justify-content-between align-items-center">
-        Dapibus ac facilisis in
-        <span class="badge badge-primary badge-pill">2</span>
-      </li>
-      <li class="list-group-item d-flex justify-content-between align-items-center">
-        Morbi leo risus
-        <span class="badge badge-primary badge-pill">1</span>
-      </li>
+      <?php } ?>
     </ul>
   </div>
+  <?php } ?>
 </div>
 
 

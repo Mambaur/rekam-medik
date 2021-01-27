@@ -18,8 +18,49 @@ class Dashboard extends CI_Controller {
 
     // Menampilkan halaman beranda
     public function index(){
-        // echo date('d-m-Y');die;
-        $data['pasien'] = $this->Pasien->getPasien();
+
+        // Menampilkan data semua poli yang dipinjam
+        $poliYangPinjam = $this->db->get('peminjaman')->result_array();
+        $temp = null;
+        $totalPoli = null;
+        $keyPoli=null;
+        foreach($poliYangPinjam as $item){
+            if($item['status'] !== '-'){
+                $temp[] = $item['status'];
+            }
+        }
+
+        if ($temp) {
+            $totalPoli = array_count_values($temp);
+            $keyPoli = array_keys($totalPoli);;
+        }
+
+        // menampilkan data distributor yang mengirimkan hari ini
+        $this->db->join('distributor', 'peminjaman.distributor = distributor.id_distributor');
+        $disHariIni = $this->db->get('peminjaman')->result_array();
+
+        $temp2 = null;
+        $totalDistributor = null;
+        $keyDistributor=null;
+        foreach($disHariIni as $item){
+            if($item['status'] !== '-'){
+                $temp2[] = $item['nama_distributor'];
+            }
+        }
+
+        if ($temp2) {
+            $totalDistributor = array_count_values($temp2);
+            $keyDistributor = array_keys($totalDistributor);;
+        }
+
+        $data = [
+            'pasien' => $this->Pasien->getPasien(),
+            'totalPoli' => $totalPoli,
+            'keyPoli' => $keyPoli,
+            'totalDistributor' => $totalDistributor,
+            'keyDistributor' => $keyDistributor
+        ];
+
         $this->load->view('widgets/header-view.php');
         $this->load->view('widgets/sidebar-view.php');
         $this->load->view('widgets/topbar-view.php');

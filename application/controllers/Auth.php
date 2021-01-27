@@ -2,6 +2,13 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Auth extends CI_Controller {
+    // Fungsi yang pertama kali dijalankan
+	public function __construct(){
+        parent::__construct();
+
+        // Memanggil model Pasien
+        $this->load->model('Pasien');
+    }
 
     // Menampilkan halamn login
     public function index(){
@@ -52,22 +59,12 @@ class Auth extends CI_Controller {
 		redirect('auth'); // dialihkan ke halaman login
     }
 
-
-
-    // public function tes(){
-    //     $data = $this->db->get('comments')->num_rows();
-    //     $data2 = $this->db->get('comments')->result_array();
-
-    //     if ($data == 10) {
-    //         for ($i=0; $i < 5; $i++) { 
-    //             $this->db->delete('comments', ['comment_id' => $data2[$i]['comment_id']]);
-    //         }
-    //     }
-
-
-    //     $this->db->insert('comments', ['comment_id' => $this->createId() ,'comment_subject' => $this->input->get('data')]);
-    // }
-    
+    public function dashboard(){
+        $data['pasien'] = $this->Pasien->getPasien();
+        $this->load->view('widgets/header-view.php');
+        $this->load->view('dashboard-home-view.php', $data);
+        $this->load->view('widgets/footer-view.php');
+    }
 
     // Men-generate id baru
     public function createId(){
