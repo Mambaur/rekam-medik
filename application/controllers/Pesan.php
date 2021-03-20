@@ -65,16 +65,6 @@ class Pesan extends CI_Controller {
         $result = curl_exec($ch);
         $err = curl_error($ch);
         curl_close($ch);
-
-        if ($err) {
-        //    echo 'Pesan gagal terkirim, error :' . $err;
-            $this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert">Pesan gagal dikirim, mohon periksa koneksi internet anda!</div>');
-            redirect('pesan');
-        }else{
-            // echo 'Pesan terkirim';
-            $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Pesan berhasil dikirim!</div>');
-            redirect('pesan');
-        }
     }
 
     public function getMessage(){
@@ -125,7 +115,7 @@ class Pesan extends CI_Controller {
             $data_poli = $this->db->get_where('poli', ['id_poli' => $data[$i]['poli_id_poli']])->row_array();
             $telegram_id = $data_poli['telepon'];
 
-            if (strtotime($data[$i]['waktu']) <= strtotime(date("Y-m-d"))) {
+            if (strtotime($data[$i]['waktu']) <= strtotime(date("Y-m-d H:i:s"))) {
                 $this->db->where('status', 'dipinjam');
                 $this->db->update('detail_pinjam', ['status' => 'Terlambat']);
                 $this->sendMessage($telegram_id, $message_text, $secret_token);

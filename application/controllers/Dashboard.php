@@ -53,12 +53,22 @@ class Dashboard extends CI_Controller {
             $keyDistributor = array_keys($totalDistributor);;
         }
 
+        $berkasTerlambat = $this->db->get_where('detail_pinjam', ['status' => 'Terlambat', 'tipe' => 'Peminjaman'])->result_array();
+        $totalBerkasTerlambat = 0;
+        foreach($berkasTerlambat as $item){ 
+            $date = date("Y-m-d", strtotime($item['waktu']));
+            if($date == date('Y-m-d')){
+                $totalBerkasTerlambat++;
+            }
+        }
+
         $data = [
             'pasien' => $this->Pasien->getPasien(),
             'totalPoli' => $totalPoli,
             'keyPoli' => $keyPoli,
             'totalDistributor' => $totalDistributor,
-            'keyDistributor' => $keyDistributor
+            'keyDistributor' => $keyDistributor,
+            'berkasTerlambat' => $totalBerkasTerlambat
         ];
 
         $this->load->view('widgets/header-view.php');
@@ -99,12 +109,15 @@ class Dashboard extends CI_Controller {
         $id_pinjam = $this->input->post('id_pinjam');
         $keterangan = $this->input->post('keterangan');
         $nama_pasien = $this->input->post('nama_pasien');
+        $waktu = null;
 
         // Mendapatkan input waktu lama peminjaman
         if ($this->input->post('waktu') == '1x24') {
             $waktu = date("Y-m-d H:i:s", strtotime('+ 1 day'));
-        }else{
+        }elseif($this->input->post('waktu') == '2x24'){
             $waktu = date("Y-m-d H:i:s", strtotime('+ 2 day'));
+        }else{
+            $waktu = date("Y-m-d H:i:s", strtotime('+1 minutes'));
         }
         
         // Memasukkan segala informasi atau data di array

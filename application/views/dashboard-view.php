@@ -18,7 +18,7 @@
             <div class="h5 mb-0 font-weight-bold text-gray-800"><?= count($this->db->get_where('pasien', ['tanggal_masuk' => date('d-m-Y')])->result_array()); ?></div>
           </div>
           <div class="col-auto">
-            <i class="fas fa-calendar fa-2x text-gray-300"></i>
+            <i class="fas fa-user fa-2x text-gray-300"></i>
           </div>
         </div>
       </div>
@@ -35,7 +35,7 @@
             <div class="h5 mb-0 font-weight-bold text-gray-800"><?= count($this->db->get('distributor')->result_array()); ?></div>
           </div>
           <div class="col-auto">
-            <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
+            <i class="fas fa-user-nurse fa-2x text-gray-300"></i>
           </div>
         </div>
       </div>
@@ -81,7 +81,7 @@
             </div>
           </div>
           <div class="col-auto">
-            <i class="fas fa-comments fa-2x text-gray-300"></i>
+            <i class="fas fa-hospital fa-2x text-gray-300"></i>
           </div>
         </div>
       </div>
@@ -117,6 +117,16 @@
     </ul>
   </div>
   <?php } ?>
+
+  <div class="col-lg">
+    <h5>Peminjaman terlambat</h5>
+    <ul class="list-group">
+      <li class="list-group-item d-flex justify-content-between align-items-center">
+        Hari ini
+        <span class="badge badge-primary badge-pill"><?= $berkasTerlambat ?></span>
+      </li>
+    </ul>
+  </div>
 </div>
 
 

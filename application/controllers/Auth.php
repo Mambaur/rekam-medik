@@ -60,6 +60,11 @@ class Auth extends CI_Controller {
     }
 
     public function dashboard(){
+        // Mengecek apakah user sudah login apa belum
+        if ($this->session->userdata('email')) {
+            // jika sudah, dialihkan ke halaman dashboard
+			redirect('dashboard');
+        }
         $data['pasien'] = $this->Pasien->getPasien();
         $this->load->view('widgets/header-view.php');
         $this->load->view('dashboard-home-view.php', $data);
