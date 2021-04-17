@@ -81,10 +81,11 @@
                     // Mengambil selisih tiap bulan, hari, dan jam
                     ($diff->m != 0) ? $month = $diff->m.' Bulan, ' : $month = ''; 
                     ($diff->d != 0) ? $day = $diff->d. ' Hari, ' : $day = '';
-                    ($diff->h != 0) ? $hour = $diff->h. ' Jam' : $hour = '';
+                    ($diff->h != 0) ? $hour = $diff->h. ' Jam ' : $hour = '';
+                    ($diff->i != 0) ? $menit = $diff->i. ' Menit' : $menit = '';
 
                     // Menampilkan keterangan dengan selisih waktu
-                    echo $item['keterangan'] . '- Terlambat dikembalikan <br>'.$month.$day.$hour;
+                    echo $item['keterangan'] . '- Terlambat dikembalikan <br>'.$month.$day.$hour.$menit;
                 }else{
                     // menampilkan keterangan saja
                     echo $item['keterangan']; 

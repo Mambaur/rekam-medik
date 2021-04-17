@@ -47,7 +47,7 @@
                         </div>
                         <button type="submit" class="btn btn-success btn-icon-split h-25">
                             <span class="icon text-white-50">
-                            <i class="fa fa-rocketchat"></i>
+                            <i class="fas fa-paper-plane"></i>
                             </span>
                             <span class="text">Kirim</span>
                         </button>

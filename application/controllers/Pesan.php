@@ -47,6 +47,8 @@ class Pesan extends CI_Controller {
         ];
         if ($this->db->insert('pesan', $data)) {
             $this->sendMessage($telegram_id, $message_text, $secret_token);
+            $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Pesan berhasil dikirimkan!</div>');
+            redirect('pesan');
         }else{
             $this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert">Pesan gagal dimasukkan kedalam database!</div>');
             redirect('pesan');
@@ -65,6 +67,11 @@ class Pesan extends CI_Controller {
         $result = curl_exec($ch);
         $err = curl_error($ch);
         curl_close($ch);
+
+        if ($err) {
+            $this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert">Pesan gagal dimasukkan kedalam database!</div>');
+            redirect('pesan');
+        }
     }
 
     public function getMessage(){
