@@ -71,12 +71,17 @@ class Berkas extends CI_Controller {
             $status = 'baru';
         }elseif($waktu == '1x24'){
             // apabila waktu peminjaman selama satu hari
-            $waktu = date("Y-m-d", strtotime('+ 1 day'));
+            $waktu = date("Y-m-d H:i:s", strtotime('+ 1 day'));
+            $tipe = 'Peminjaman';
+            $status = 'dipinjam';
+        }elseif($waktu == '2x24'){
+            // apabila waktu peminjaman selama dua hari
+            $waktu = date("Y-m-d H:i:s", strtotime('+ 2 day'));
             $tipe = 'Peminjaman';
             $status = 'dipinjam';
         }else{
-            // apabila waktu peminjaman selama dua hari
-            $waktu = date("Y-m-d", strtotime('+ 2 day'));
+            // apabila waktu peminjaman selama dua menit
+            $waktu = date("Y-m-d H:i:s", strtotime('+1 minutes'));
             $tipe = 'Peminjaman';
             $status = 'dipinjam';
         }

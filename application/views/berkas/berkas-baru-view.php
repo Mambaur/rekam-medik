@@ -66,8 +66,9 @@
                                 Waktu Peminjaman
                                 <select class="form-control" name="waktu">
                                     <option value="-">-</option>
-                                    <option value="1x24">1x24</option>
-                                    <option value="2x24">2x24</option>
+                                    <option value="1x24">1x24 RJ</option>
+                                    <option value="2x24">2x24 RI</option>
+                                    <option value="2xminutes">2 Menit</option>
                                 </select>
                             </div>
                             <div class="form-group w-100">
