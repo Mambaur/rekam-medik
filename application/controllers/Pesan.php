@@ -14,7 +14,8 @@ class Pesan extends CI_Controller {
     }
 
     // Remove webhook
-    // https://api.telegram.org/bot1357308704:AAFTKe7m7Q7P1dfX4MY-4kYmRs7tQi20w-4/SETWebhook
+    // https://api.telegram.org/bot1802432255:AAFHZwCBa39ZWWdRCDXQNXtJeYKwpXvcYo8/SETWebhook
+    // old bot id: 1357308704
 
     public function index(){
         $data['poli'] = $this->db->get('poli')->result_array();
@@ -31,7 +32,7 @@ class Pesan extends CI_Controller {
         // Set zona waktu di indonesia
         date_default_timezone_set("Asia/Jakarta");
 
-        $secret_token = '1357308704:AAFTKe7m7Q7P1dfX4MY-4kYmRs7tQi20w-4';
+        $secret_token = '1802432255:AAFHZwCBa39ZWWdRCDXQNXtJeYKwpXvcYo8';
         // $telegram_id = '628079062';
         // $message_text = 'Hello mambaur';
         $telegram_id = $this->input->post('telepon');
@@ -79,7 +80,7 @@ class Pesan extends CI_Controller {
         // Set zona waktu di indonesia
         date_default_timezone_set("Asia/Jakarta");
 
-        $getData = file_get_contents('https://api.telegram.org/bot1357308704:AAFTKe7m7Q7P1dfX4MY-4kYmRs7tQi20w-4/getUpdates');
+        $getData = file_get_contents('https://api.telegram.org/bot1802432255:AAFHZwCBa39ZWWdRCDXQNXtJeYKwpXvcYo8/getUpdates');
 
         $data = json_decode($getData, TRUE);
 
@@ -114,7 +115,7 @@ class Pesan extends CI_Controller {
         // Set zona waktu di indonesia
         date_default_timezone_set("Asia/Jakarta");
         
-        $secret_token = '1357308704:AAFTKe7m7Q7P1dfX4MY-4kYmRs7tQi20w-4';
+        $secret_token = '1802432255:AAFHZwCBa39ZWWdRCDXQNXtJeYKwpXvcYo8';
         $message_text = 'Mohon maaf, berkas pasien harus segera dikembalikan';
 
         $data = $this->db->get_where('detail_pinjam', ['tipe' => 'Peminjaman', 'status' => 'dipinjam'])->result_array();
